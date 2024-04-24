@@ -167,7 +167,7 @@ public class RabbitBinderModuleTests {
 		Client client = new Client("http://guest:guest@localhost:15672/api");
 		List<BindingInfo> bindings = client.getBindingsBySource("/", "process-in-0");
 		int n = 0;
-		while (n++ < 100 && bindings == null || bindings.size() < 1) {
+		while (n++ < 100 && bindings == null || bindings.isEmpty()) {
 			Thread.sleep(100);
 			bindings = client.getBindingsBySource("/", "process-in-0");
 		}

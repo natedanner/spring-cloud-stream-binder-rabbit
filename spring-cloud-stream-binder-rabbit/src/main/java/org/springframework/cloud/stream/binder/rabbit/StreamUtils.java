@@ -156,9 +156,8 @@ public final class StreamUtils {
 		}
 		RabbitStreamMessageHandler handler = new RabbitStreamMessageHandler(template);
 		if (errorChannel != null) {
-			handler.setFailureCallback((msg, ex) -> {
-				errorChannel.send(new ErrorMessage(new MessageHandlingException(msg, ex)));
-			});
+			handler.setFailureCallback((msg, ex) ->
+				errorChannel.send(new ErrorMessage(new MessageHandlingException(msg, ex))));
 		}
 		handler.setHeaderMapper(headerMapperFunction.apply(extendedProperties));
 		handler.setSync(ProducerType.STREAM_SYNC.equals(producerProperties.getExtension().getProducerType()));

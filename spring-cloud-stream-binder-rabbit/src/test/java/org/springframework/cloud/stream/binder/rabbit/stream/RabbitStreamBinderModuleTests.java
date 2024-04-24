@@ -79,7 +79,7 @@ public class RabbitStreamBinderModuleTests {
 		RabbitConsumerProperties rProps = new RabbitConsumerProperties();
 		rProps.setContainerType(ContainerType.STREAM);
 		ExtendedConsumerProperties<RabbitConsumerProperties> props =
-				new ExtendedConsumerProperties<RabbitConsumerProperties>(rProps);
+				new ExtendedConsumerProperties<>(rProps);
 		props.setAutoStartup(false);
 		Binding<MessageChannel> binding = rabbitBinder.bindConsumer("testStream", "grp", new QueueChannel(), props);
 		Object container = TestUtils.getPropertyValue(binding, "lifecycle.messageListenerContainer");
@@ -100,7 +100,7 @@ public class RabbitStreamBinderModuleTests {
 		RabbitProducerProperties rProps = new RabbitProducerProperties();
 		rProps.setProducerType(ProducerType.STREAM_SYNC);
 		ExtendedProducerProperties<RabbitProducerProperties> props =
-				new ExtendedProducerProperties<RabbitProducerProperties>(rProps);
+				new ExtendedProducerProperties<>(rProps);
 		Binding<MessageChannel> binding = rabbitBinder.bindProducer("testStream", new DirectChannel(), props);
 		Object handler = TestUtils.getPropertyValue(binding, "lifecycle");
 		assertThat(handler).isInstanceOf(RabbitStreamMessageHandler.class);
@@ -121,9 +121,8 @@ public class RabbitStreamBinderModuleTests {
 		ListenerContainerCustomizer<MessageListenerContainer> containerCustomizer() {
 			return (cont, dest, group) -> {
 				StreamListenerContainer container = (StreamListenerContainer) cont;
-				container.setConsumerCustomizer((name, builder) -> {
-					builder.offset(OffsetSpecification.first());
-				});
+				container.setConsumerCustomizer((name, builder) ->
+					builder.offset(OffsetSpecification.first()));
 			};
 		}
 

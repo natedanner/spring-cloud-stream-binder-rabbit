@@ -62,7 +62,7 @@ public class RepublishUnitTests {
 		RabbitMessageChannelBinder binder = new RabbitMessageChannelBinder(cf, props, null);
 		RabbitConsumerProperties extension = new RabbitConsumerProperties();
 		ExtendedConsumerProperties<RabbitConsumerProperties> bindingProps =
-				new ExtendedConsumerProperties<RabbitConsumerProperties>(extension);
+				new ExtendedConsumerProperties<>(extension);
 		MessageHandler handler = binder.getErrorMessageHandler(mock(ConsumerDestination.class), "foo", bindingProps);
 		ErrorMessage message = new ErrorMessage(new RuntimeException("test"),
 				Collections.singletonMap(IntegrationMessageHeaderAccessor.SOURCE_DATA,
